@@ -3,7 +3,36 @@ import { Settings } from "./utils/config";
 
 console.log('Start DUMB2CSV');
 
-const fileContent: any = fs.readFileSync('./data/22162724.DMP');
+const src: Uint8Array = new Uint8Array(fs.readFileSync('./data/22162724.DMP'));
+
+class TDump{
+  T1000Hz: number;//u16
+  Igen: number;//s16
+  UgenAB: Uint16Array;//s16
+  UgenBC: Uint16Array;//s16
+  UgenCA: Uint16Array;//s16
+  Iexc: Uint16Array;//u16
+  Uexc: Uint16Array;//s16
+  Triggers: Uint16Array;//u16
+  TimeMS: Uint16Array;//u16
+  TimeDH: Uint16Array;//u16
+  TimeYM: Uint16Array;//u16
+  Faults: Uint16Array;//u16
+  gap: Uint16Array;//u16
+}
+
+const FileSize: number = src.byteLength;
+
+const step: number = 26;
+var index: number = 0;
+
+while (index < FileSize) {
+  let dump: TDump = new TDump();
+  let d = new DataView(src.buffer, index, step);
+  dump.T1000Hz = d.getInt16(0, true);
+  dump.Igen = d.getUint16(2, true);
+  index += step;
+}
 
 //const Areas: Array<TFlashSegmen> = [...getResourses(Settings.resources || undefined)];
 //write the Array binary data to res.bin file
