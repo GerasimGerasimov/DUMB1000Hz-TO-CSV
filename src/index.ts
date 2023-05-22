@@ -3,7 +3,7 @@ import { Settings } from "./utils/config";
 
 console.log('Start DUMB2CSV');
 
-const src: Uint8Array = new Uint8Array(fs.readFileSync('./data/22162724.DMP'));
+const src: Uint16Array = new Uint16Array(fs.readFileSync('./data/22162724.DMP'));
 
 class TDump{
   T1000Hz: number;//u16
